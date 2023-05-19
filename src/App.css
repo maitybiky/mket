@@ -1,0 +1,28 @@
+#root {
+  padding: 0;
+ margin: 0;
+}
+body{
+  display: block;
+}
+.shops .shop :hover{
+cursor: pointer;
+}
+
+.MuiCard-root:hover{
+  transition: 0.5s;
+/* background-color: rgb(104, 104, 104); */
+color: aliceblue;
+
+}
+
+
+
+.prod-card{
+  background-color: black;
+  /* padding: 5px; */
+  color: aliceblue;
+  border-radius: 10px;
+  text-align: center;
+  /* min-width: ; */
+}

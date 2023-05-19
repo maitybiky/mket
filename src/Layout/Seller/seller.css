@@ -1,0 +1,76 @@
+.wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: start;
+  width: 99vw;
+  overflow: hidden;
+  /* Negative margin to counteract card margins */
+}
+
+.cardc {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  width: calc(100% / 3);
+  padding: 25px;
+  box-sizing: border-box;
+  /* border: 1px solid #ccc; */
+  border-radius: 15px;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
+  height: 30vh;
+  transition: 0.5s;
+}
+.cardc:hover {
+  transition: 0.5s;
+  background: rgb(255, 255, 255);
+  background: linear-gradient(
+    3deg,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(255, 255, 255, 1) 11%,
+    rgba(0, 212, 255, 1) 100%
+  );
+}
+.cardc img {
+  width: 100%;
+  min-height: 60%;
+  margin: 10px;
+  object-fit: contain;
+}
+.cardc label {
+  margin: 0px;
+}
+.cardc .im {
+  border-radius: 50%; /* Apply round shape to the image */
+  transition: transform 0.3s ease;
+}
+.cardc h6 {
+  margin: 0;
+}
+
+.cardc p {
+  margin: 0;
+  font-weight: 500;
+  font-size: x-small;
+}
+.cardc .action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.cardc button {
+  height: 30px;
+}
+/* Tablet view: 5 cards per row */
+@media (min-width: 768px) {
+  .cardc {
+    width: calc(100% / 5);
+  }
+}
+
+/* Desktop view: 8 cards per row */
+@media (min-width: 1200px) {
+  .cardc {
+    width: calc(100% / 8);
+  }
+}
