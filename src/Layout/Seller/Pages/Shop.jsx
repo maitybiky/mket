@@ -1,23 +1,12 @@
 import React, { useEffect, useState } from "react";
-import TabComponent from "../../../Component/TabComponent";
-import CardComp from "../../../Component/CardComp";
 import {
-  Button,
-  Checkbox,
-  Chip,
-  Fab,
   FormControlLabel,
-  Stack,
   Switch,
 } from "@mui/material";
-import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
-import Favorite from "@mui/icons-material/Favorite";
-import { prodlist } from "../../../Component/Prod";
-import BotNav from "../../../Component/BotNav";
-import axios from "axios";
 import { items } from "../../../Extraa/DummyProd";
 import SearchBar from "../../../Component/SearchBar";
 import Profile from "../../../Component/Profile/Index";
+import SideBar from "../../../Component/Sidebar";
 
 const prod = () => {
   const [loading, setLoading] = useState(false);
@@ -29,7 +18,7 @@ const prod = () => {
   return (
     <>
       <SearchBar />
-
+    
       <Profile />
       <div className="wrapper">
         {items.map((it) => (

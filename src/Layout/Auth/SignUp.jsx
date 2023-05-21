@@ -4,7 +4,6 @@ import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
@@ -12,43 +11,55 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Radio from "@mui/material/Radio";
-
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 import { RadioGroup } from "@mui/material";
-import { useAccType, useToken } from "../../zustand/store";
 import supabase from "../../Supabase/Supabase";
+import { useState } from "react";
+import { useNavigate } from "react-router";
+import { useAccType, useToken } from "../../zustand/store";
+import Loading from "../../Component/Loading";
 import { Link } from "react-router-dom";
-
-// TODO remove, this demo shouldn't need to reset the theme.
-
-const defaultTheme = createTheme();
-
-export default function SignIn() {
-  const { setSeller, setUser, loggedIn, setAccount } = useAccType();
-  const { setAxsToken, setRefreashToken, setExpTime, token } = useToken();
-
-  const [loginData, setLoginData] = React.useState({
+const SignUp = () => {
+  const [loading, setLoading] = useState(false);
+  const [loginData, setLoginData] = useState({
     accType: "user",
   });
 
+  const { type, setSeller, setUser, loggedIn, setAccount } = useAccType(
+    (state) => state
+  );
+  const { setAxsToken, setRefreashToken, setExpTime, token } = useToken(
+    (state) => state
+  );
+  const navi = useNavigate();
+  const defaultTheme = createTheme();
+
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+    setLoading(true);
     const input_data = new FormData(event.currentTarget);
-    console.log({
-      email: input_data.get("email"),
-      password: input_data.get("password"),
-    });
+    let account_data = {
+      userName: input_data.get("userName"),
+      acountType: loginData.accType,
+    };
+    if (loginData.accType === "seller") {
+      account_data.shop_name = input_data.get("shop_name");
+    }
 
-    const { data, error } = await supabase.auth.signInWithPassword({
+    const { data, error } = await supabase.auth.signUp({
       email: input_data.get("email"),
       password: input_data.get("password"),
+      options: {
+        data: account_data,
+      },
     });
+    setLoading(false);
+
     if (data) {
+      console.log("data", data);
       const { access_token, refresh_token, expires_at } = data.session;
       const { user } = data;
-
       loggedIn();
       setAccount(user);
       setAxsToken(access_token);
@@ -60,10 +71,12 @@ export default function SignIn() {
         setUser();
       }
     }
+
+    console.log("data", data, error);
   };
-  console.log("type", token);
   return (
     <ThemeProvider theme={defaultTheme}>
+      <Loading loading={loading} />
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -79,7 +92,7 @@ export default function SignIn() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            Sign Up
           </Typography>
           <Box
             component="form"
@@ -87,6 +100,26 @@ export default function SignIn() {
             noValidate
             sx={{ mt: 1 }}
           >
+            {loginData.accType === "seller" ? (
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="email"
+                label="Shop Name"
+                name="shop_name"
+                autoFocus
+              />
+            ) : null}
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="username"
+              label="User_Name"
+              name="userName"
+              autoFocus
+            />
             <TextField
               margin="normal"
               required
@@ -94,7 +127,6 @@ export default function SignIn() {
               id="email"
               label="Email Address"
               name="email"
-              autoComplete="email"
               autoFocus
             />
             <TextField
@@ -105,15 +137,10 @@ export default function SignIn() {
               label="Password"
               type="password"
               id="password"
-              autoComplete="current-password"
-            />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
             />
             <FormControl>
               <FormLabel id="demo-row-radio-buttons-group-label">
-                Gender
+                sign up as a
               </FormLabel>
               <RadioGroup
                 row
@@ -144,41 +171,20 @@ export default function SignIn() {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign In
+              Sign Up
             </Button>
             <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
               <Grid item>
-                <Link to="/sign-up" variant="body2">
-                  {"Don't have an account? Sign Up"}
+                <Link to="/sign-in" variant="body2">
+                  {"Already have an account? Sign In"}
                 </Link>
               </Grid>
             </Grid>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
     </ThemeProvider>
   );
-}
-function Copyright(props) {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
-      {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
+};
+
+export default SignUp;
