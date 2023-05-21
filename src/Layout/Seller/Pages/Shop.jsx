@@ -14,7 +14,6 @@ const prod = () => {
 
   const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
-  console.log("data", data);
   return (
     <>
       <SearchBar />
@@ -31,7 +30,7 @@ const prod = () => {
                 control={
                   <Switch
                     onChange={(e) => {
-                      console.log("e.target.checked", e.target.checked);
+                   
                     }}
                   />
                 }

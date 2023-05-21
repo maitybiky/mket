@@ -57,7 +57,7 @@ const SignUp = () => {
     setLoading(false);
 
     if (data) {
-      console.log("data", data);
+     
       const { access_token, refresh_token, expires_at } = data.session;
       const { user } = data;
       loggedIn();
@@ -72,7 +72,7 @@ const SignUp = () => {
       }
     }
 
-    console.log("data", data, error);
+ 
   };
   return (
     <ThemeProvider theme={defaultTheme}>

@@ -27,7 +27,7 @@ const ShopDetails = () => {
                     control={
                       <Switch
                         onChange={(e) => {
-                          console.log("e.target.checked", e.target.checked);
+                       
                         }}
                       />
                     }

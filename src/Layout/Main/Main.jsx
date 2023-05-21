@@ -8,8 +8,8 @@ const Main = () => {
     return <Navigate to="/sign-in" />;
   } else if (type === "seller") {
     return <Navigate to="/shop" />;
-  } else if (type === "seller") {
-    return <Navigate to="/home" />;
+  } else if (type === "user") {
+    return <Navigate to="/market" />;
   }
 };
 

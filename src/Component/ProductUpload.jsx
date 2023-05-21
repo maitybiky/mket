@@ -6,7 +6,6 @@ const PhotoUplaod = () => {
   const [dataUri, setDataUri] = useState('');
 
   function handleTakePhotoAnimationDone (dataUri) {
-    console.log('takePhoto');
     setDataUri(dataUri);
   }
 

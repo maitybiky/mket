@@ -19,6 +19,8 @@ import { RadioGroup } from "@mui/material";
 import { useAccType, useToken } from "../../zustand/store";
 import supabase from "../../Supabase/Supabase";
 import { Link } from "react-router-dom";
+import Loading from "../../Component/Loading";
+import { useState } from "react";
 
 // TODO remove, this demo shouldn't need to reset the theme.
 
@@ -27,7 +29,7 @@ const defaultTheme = createTheme();
 export default function SignIn() {
   const { setSeller, setUser, loggedIn, setAccount } = useAccType();
   const { setAxsToken, setRefreashToken, setExpTime, token } = useToken();
-
+  const [load, setLoad] = useState(false);
   const [loginData, setLoginData] = React.useState({
     accType: "user",
   });
@@ -36,15 +38,12 @@ export default function SignIn() {
     event.preventDefault();
 
     const input_data = new FormData(event.currentTarget);
-    console.log({
-      email: input_data.get("email"),
-      password: input_data.get("password"),
-    });
-
+    setLoad(true);
     const { data, error } = await supabase.auth.signInWithPassword({
       email: input_data.get("email"),
       password: input_data.get("password"),
     });
+    setLoad(false);
     if (data) {
       const { access_token, refresh_token, expires_at } = data.session;
       const { user } = data;
@@ -61,9 +60,10 @@ export default function SignIn() {
       }
     }
   };
-  console.log("type", token);
+
   return (
     <ThemeProvider theme={defaultTheme}>
+      <Loading loading={load} />
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box

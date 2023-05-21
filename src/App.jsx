@@ -17,7 +17,9 @@ function App() {
     <>
       <Router>
         <Routes>
+          <Route element={<Main />} path="*" />
           <Route element={<Main />} path="/" />
+          <Route element={<Home />} path="/market" />
           <Route element={<PublicRoute />}>
             <Route element={<SignIn />} path="/sign-in" />
             <Route element={<SignUp />} path="/sign-up" />
@@ -27,7 +29,7 @@ function App() {
             <Route element={<PhotoUpload />} path="/upload-product" />
           </Route>
           <Route element={<CustomerLayout />}>
-            <Route element={<Home />} path="/home" />
+           
             <Route element={<ShopDetails />} path="/shop/:id" />
           </Route>
         </Routes>
